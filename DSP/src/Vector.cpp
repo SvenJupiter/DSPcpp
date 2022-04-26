@@ -49,7 +49,7 @@ Vector::Vector(Matrix&& column_mat):
 Matrix()
 {
     if (column_mat.get_num_columns() == 1) {
-        this->Matrix::operator=(column_mat);
+        this->Matrix::operator=(std::move(column_mat));
     }
 }
 Vector::Vector(Vector&& other):
@@ -74,7 +74,7 @@ Matrix Vector::to_Matrix() const {
 Vector::operator real_t() const {
     return this->length();
 }
-real_t Vector::abs() const {
+Vector Vector::abs() const {
     return Vector::abs(*this);
 }
 real_t Vector::norm_squared() const {
@@ -276,7 +276,7 @@ std::pair<Vector, Vector> Vector::deconv(const Vector& u, const Vector& v) {
 
 
 
-real_t Vector::abs(const Vector& vec) {
+Vector Vector::abs(const Vector& vec) {
     Vector vec2(vec.size());
     for (size_t k = 0; k < vec.size(); ++k) {
         vec2.elements[k] = (vec.elements[k] >= 0 ? vec.elements[k] : -(vec.elements[k]));

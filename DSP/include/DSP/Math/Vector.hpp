@@ -55,7 +55,7 @@ DSP_CLASS Vector : protected Matrix {
 
         // to real_t
         operator real_t() const;
-        real_t abs() const;
+        Vector abs() const;
         real_t norm_squared() const;
         real_t norm() const;
         real_t length_squared() const;
@@ -152,7 +152,7 @@ DSP_CLASS Vector : protected Matrix {
         static std::pair<Vector, Vector> deconv(const Vector& u, const Vector& v);
 
 
-        static real_t abs(const Vector& vec);
+        static Vector abs(const Vector& vec);
         static real_t norm_squared(const Vector& vec);
         static real_t norm(const Vector& vec);
         static real_t length_squared(const Vector& vec);

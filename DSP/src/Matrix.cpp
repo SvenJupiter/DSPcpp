@@ -468,8 +468,8 @@ real_t Matrix::det() const {
 
 // Inverse 
 // row == columns -> Gauß, 
-// row < column -> ~M = ~(C^T * C) * C^T
-// row > column -> ~M = C^T * ~(C * C^T)
+// row > column -> ~M = ~(C^T * C) * C^T
+// row < column -> ~M = C^T * ~(C * C^T)
 Matrix Matrix::operator~() const {
     return Matrix::pinv(*this);
 }
@@ -625,9 +625,9 @@ real_t Matrix::gauss_jordan(Matrix* const A, Matrix* const B, const gauss_jordan
     // Determinante berechnen
     for (size_t k = 0; k < size; ++k) { alpha *= A->m(k, k); }
 
-    // Falls nur ie Determinante berechnet werden sollte 
+    // Falls nur die Determinante berechnet werden sollte 
     // oder die Determinante Null ist, stoppe hier.
-    if (task == calc_det || alpha == 0) { return 0;}
+    if (task == calc_det || alpha == 0) { return alpha;}
 
     // Rückwärts-Elimination
     for (size_t k = size; k > 1; --k) {
@@ -666,15 +666,15 @@ Matrix Matrix::inv(Matrix M) {
     else { return B; }
 }
 Matrix Matrix::pinv(const Matrix& M) {
-    if (M.rows < M.columns) {
-        // Unterbestimmt: row < column -> ~C = C^T * ~(C * C^T)
-        auto Mt = M.transpose();
-        return Mt * Matrix::inv(M * Mt);
-    }
-    else if (M.rows > M.columns) {
+    if (M.rows > M.columns) {
         // Überbestimmt: row > column -> ~C = ~(C^T * C) * C^T
-        auto Mt = M.transpose();
+        const auto Mt = M.transpose();
         return Matrix::inv(Mt * M) * Mt;
+    }
+    else if (M.rows < M.columns) {
+        // Unterbestimmt: row < column -> ~C = C^T * ~(C * C^T)
+        const auto Mt = M.transpose();
+        return Mt * Matrix::inv(M * Mt);
     }
     else {
         // row == columns -> Gauß-Jordan

@@ -148,8 +148,8 @@ DSP_CLASS Matrix {
 
         // Inverse 
         // row == columns -> Gauß, 
-        // row < column -> ~M = ~(C^T * C) * C^T
-        // row > column -> ~M = C^T * ~(C * C^T)
+        // row > column -> ~M = ~(C^T * C) * C^T
+        // row < column -> ~M = C^T * ~(C * C^T)
         Matrix operator~() const;
         Matrix inv() const; // 
         Matrix pinv() const; //
